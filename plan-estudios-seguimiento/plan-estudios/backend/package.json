@@ -1,0 +1,19 @@
+{
+  "name": "plan-estudios-backend",
+  "version": "1.0.0",
+  "description": "Backend para seguimiento de malla curricular - Ingeniería Informática UPCH",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "cors": "^2.8.5",
+    "csv-parse": "^5.5.6",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^1.1.1"
+  }
+}

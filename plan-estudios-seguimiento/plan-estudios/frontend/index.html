@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Seguimiento de Malla Curricular · Ingeniería Informática</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-badge">UPCH</div>
+        <div>
+          <h1 id="carreraTitulo">Seguimiento de Malla Curricular</h1>
+          <p id="planSubtitulo" class="muted">Ingeniería Informática</p>
+        </div>
+      </div>
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="malla">Malla</button>
+        <button class="tab-btn" data-tab="notas">Cargar notas</button>
+        <button class="tab-btn" data-tab="informe">Informe</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ================= TAB: MALLA ================= -->
+    <section id="tab-malla" class="tab-panel active">
+      <div class="summary-strip" id="summaryStrip"></div>
+
+      <div class="legend">
+        <span class="chip status-completed">Culminado</span>
+        <span class="chip status-in_progress">En curso</span>
+        <span class="chip status-available">Disponible</span>
+        <span class="chip status-locked">Bloqueado</span>
+      </div>
+
+      <div id="cyclesContainer" class="cycles-grid"></div>
+    </section>
+
+    <!-- ================= TAB: NOTAS ================= -->
+    <section id="tab-notas" class="tab-panel">
+      <div class="card">
+        <h2>Cargar tu ficha de notas</h2>
+        <p class="muted">
+          Sube un archivo <strong>CSV</strong> (recomendado, resultado 100% confiable) o un
+          <strong>PDF</strong> de tu ficha (extracción aproximada — revisa siempre la vista previa antes de confirmar).
+        </p>
+
+        <div class="upload-grid">
+          <div class="upload-box">
+            <h3>Opción A — CSV</h3>
+            <p class="muted small">Columnas: <code>codigo,nota,ciclo</code> (encabezados flexibles). Ejemplo:</p>
+            <pre class="code-sample">codigo,nota,ciclo
+C0090,16,1
+C0613,14,1
+C0659,15,1</pre>
+            <input type="file" id="csvInput" accept=".csv" />
+            <button class="btn" id="btnUploadCsv">Procesar CSV</button>
+          </div>
+
+          <div class="upload-box">
+            <h3>Opción B — PDF de tu ficha</h3>
+            <p class="muted small">Extracción best-effort por patrones de texto. Útil como punto de partida.</p>
+            <input type="file" id="pdfInput" accept=".pdf" />
+            <button class="btn" id="btnUploadPdf">Procesar PDF</button>
+          </div>
+        </div>
+
+        <div id="uploadWarning" class="warning-box" style="display:none;"></div>
+
+        <div id="previewSection" style="display:none;">
+          <h3>Vista previa — revisa antes de confirmar</h3>
+          <p class="muted small">Nota mínima aprobatoria asumida: <input type="number" id="minGrade" value="10.5" step="0.5" style="width:70px" /> (ajusta si tu carrera usa otro mínimo, y vuelve a procesar).</p>
+          <table class="preview-table">
+            <thead>
+              <tr><th>Aplicar</th><th>Código</th><th>Curso</th><th>Nota</th><th>Ciclo</th><th>Estado detectado</th></tr>
+            </thead>
+            <tbody id="previewTableBody"></tbody>
+          </table>
+          <button class="btn btn-primary" id="btnConfirmImport">Confirmar e importar</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Actualización manual rápida</h2>
+        <p class="muted">Marca un curso puntual como completado o en curso sin subir archivos.</p>
+        <div class="manual-row">
+          <select id="manualCourseSelect"></select>
+          <select id="manualStatusSelect">
+            <option value="completed">Culminado</option>
+            <option value="in_progress">En curso</option>
+            <option value="pending">Pendiente</option>
+          </select>
+          <input type="number" id="manualGrade" placeholder="Nota (opcional)" step="0.1" style="width:110px" />
+          <input type="number" id="manualCycle" placeholder="Ciclo cursado" style="width:110px" />
+          <button class="btn" id="btnManualUpdate">Guardar</button>
+        </div>
+      </div>
+
+      <div class="card danger-zone">
+        <h2>Zona de reinicio</h2>
+        <p class="muted small">Borra todo tu avance registrado (vuelve toda la malla a "pendiente").</p>
+        <button class="btn btn-danger" id="btnReset">Reiniciar todo mi avance</button>
+      </div>
+    </section>
+
+    <!-- ================= TAB: INFORME ================= -->
+    <section id="tab-informe" class="tab-panel">
+      <div id="reportContainer"></div>
+    </section>
+
+  </main>
+
+  <!-- ============ MODAL: detalle / asignar electiva ============ -->
+  <div id="courseModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
